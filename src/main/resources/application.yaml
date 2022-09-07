@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: rgb-team
+
+  datasource:
+    url: jdbc:postgresql://10.10.34.130:30507/postgres
+    username: admin
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: postgresql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+server:
+  port: 8080
