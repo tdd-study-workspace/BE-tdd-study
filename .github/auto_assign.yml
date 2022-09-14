@@ -1,0 +1,24 @@
+# Set to true to add reviewers to pull requests
+# 리뷰 추가 여부
+addReviewers: true
+
+# Set to true to add assignees to pull requests
+# assignee 추가 여부 (true로 할경우 reviewers 전부 들어가고 author로 할 경우 PR한 담당자로 배정된다.)
+addAssignees: author
+
+# A list of reviewers to be added to pull requests (GitHub user name)
+# 리뷰어 리스트(github username으로 작성하면된다.)
+reviewers:
+  - devy1540
+  - BaekChan1024
+
+# A list of keywords to be skipped the process that add reviewers if pull requests include it
+# 리뷰를 건너뛰기 위한 키워드
+# ex) wip이라는 단어가 붙은 경우 reviewer가 등록되지 않는다.
+skipKeywords:
+  - wip
+
+# A number of reviewers added to the pull request
+# Set 0 to add all the reviewers (default: 0)
+# 0으로 설정한 경우 reviewers에 기재된 모든 인원이 등록되고 인원수를 지정한 경우 랜덤으로 배정된다.
+numberOfReviewers: 0

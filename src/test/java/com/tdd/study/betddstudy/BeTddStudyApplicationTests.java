@@ -45,13 +45,6 @@ class BeTddStudyApplicationTests {
         String username = "윤혁준";
         String email = "gurwns1540@gmail.com";
 
-        User user = User.builder().username(username).email(email).build();
-
-        //when
-        User saveUser = userRepository.save(user);
-
-        //then
-        assertThat(saveUser.getUsername()).isEqualTo(user.getUsername());
 
     }
 }
