@@ -17,34 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 class BeTddStudyApplicationTests {
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Test
     void contextLoads() {
-    }
-
-    @Test
-    @DisplayName("TDD 첫 테스트 입니다.")
-    void getFirstTest() {
-        //given
-        String StringArg = "TDD";
-
-        //when
-        String actual = "TDD";
-        String expected = "TDD";
-
-        //then
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("TDD 두번째 테스트 입니다.")
-    void getSecondTest() {
-        //given
-        String username = "윤혁준";
-        String email = "gurwns1540@gmail.com";
-
-
     }
 }
