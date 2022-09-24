@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Getter
@@ -17,8 +14,15 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 @Entity
-public class User extends BaseEntity implements UserDetails {
-    @Id
+@SequenceGenerator(
+        name = "user_seq_gen",
+        sequenceName = "user_seq",
+        initialValue = 0,
+        allocationSize = 10
+)
+//public class User extends BaseEntity implements UserDetails {
+public class User extends BaseEntity {
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     Long id;
 
     private String name;
@@ -27,7 +31,7 @@ public class User extends BaseEntity implements UserDetails {
     private String bio;
     private String image;
 
-    @Override
+    /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
@@ -60,5 +64,6 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
-    }
+    }*/
+
 }
