@@ -3,13 +3,21 @@ package com.tdd.study.betddstudy.api.user.service;
 import com.tdd.study.betddstudy.api.user.dto.UserDto;
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.api.user.repository.UserRepository;
+import com.tdd.study.betddstudy.global.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -30,4 +38,20 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("email in loadUserByUsername = " + email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
+        return new org
+                .springframework
+                .security
+                .core
+                .userdetails
+                .User(user.getEmail(), user.getPassword(), grantedAuthorities);
+    }
+
 }
