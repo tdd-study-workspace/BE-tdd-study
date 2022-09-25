@@ -1,1 +1,0 @@
-package com.tdd.study.betddstudy.global.config;
