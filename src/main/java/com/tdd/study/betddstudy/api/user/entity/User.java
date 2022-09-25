@@ -21,6 +21,7 @@ import java.util.Collection;
         allocationSize = 10
 )
 //public class User extends BaseEntity implements UserDetails {
+@Table(name = "tdd_user")
 public class User extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     Long id;
