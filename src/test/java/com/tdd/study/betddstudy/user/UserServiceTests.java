@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureTestEntityManager
 @AutoConfigureTestDatabase
@@ -59,7 +59,7 @@ public class UserServiceTests {
             "username2, , password",
             " , email3, password3"
     })
-    @DisplayName("회원가입 실패 테스트")
+    @DisplayName("프로필이 있을 때 조회 테스트")
     void registerFailTest(String username, String email, String password) {
         //given
         User user = User.builder()
@@ -86,7 +86,7 @@ public class UserServiceTests {
             "username2, email2, password2, bio2, image2",
             "username3, email3, password3, bio3, image3"
     })
-    void getProfileTest(String username, String email, String password, String bio, String image) {
+    void findUserProfileTest(String username, String email, String password, String bio, String image) {
         //given
         User user = User.builder()
                 .name(username)
@@ -109,8 +109,41 @@ public class UserServiceTests {
         ProfileResponse profileResponse = userService.getProfile(username);
 
         //then
-        assertThat(profileResponse.getBio()).isNotEmpty();
-        assertThat(profileResponse.getImage()).isNotEmpty();
+        assertAll(
+            () -> assertThat(profileResponse.getBio()).isNotEmpty(),
+            () -> assertThat(profileResponse.getImage()).isNotEmpty()
+        );
+    }
 
+    @DisplayName("프로필이 없어도 조회가 되는지 테스트")
+    @ParameterizedTest
+    @CsvSource({
+            "username1, email1, password1, bio1, ",
+            "username2, email2, password2, , "
+    })
+    void notFindUserProfileTest(String username, String email, String password, String bio, String image) {
+        //given
+        User user = User.builder()
+                .name(username)
+                .email(email)
+                .password(password)
+                .bio(bio)
+                .image(image)
+                .build();
+
+        UserDto userDto = new UserDto();
+        userDto.setUsername(username);
+        userDto.setPassword(password);
+        userDto.setEmail(email);
+        userDto.setBio(bio);
+        userDto.setImage(image);
+
+        userService.addUser(userDto);
+
+        //when
+        ProfileResponse profileResponse = userService.getProfile(username);
+
+        //then
+        assertThat(profileResponse.getImage()).isNullOrEmpty();
     }
 }
