@@ -17,11 +17,11 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${jwt.token.secret-key}")
-    private String secret_key;
+    @Value("${jwt.token.secretKey}")
+    private String secretKey;
 
     @Value("${jwt.token.expire-length}")
-    private long expire_time;
+    private long expireTime;
 
     private UserService userService;
 
@@ -30,18 +30,18 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims().setSubject(authentication.getName());
 
         Date now = new Date();
-        Date expiresIn = new Date(now.getTime() + expire_time);
+        Date expiresIn = new Date(now.getTime() + expireTime);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiresIn)
-                .signWith(SignatureAlgorithm.HS256, secret_key)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public Authentication getAuthentication(String token) {
-        String username = Jwts.parser().setSigningKey(secret_key).parseClaimsJws(token).getBody().getSubject();
+        String username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
         UserDetails userDetails = userService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -57,10 +57,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secret_key).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (JwtException e) {
-            // MalformedJwtException | ExpiredJwtException | IllegalArgumentException
             throw new RuntimeException("Error on Token");
         }
     }
