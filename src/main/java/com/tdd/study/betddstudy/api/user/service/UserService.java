@@ -1,5 +1,6 @@
 package com.tdd.study.betddstudy.api.user.service;
 
+import com.tdd.study.betddstudy.api.profile.service.FollowService;
 import com.tdd.study.betddstudy.api.user.dto.ProfileResponse;
 import com.tdd.study.betddstudy.api.user.dto.UserDto;
 import com.tdd.study.betddstudy.api.user.entity.User;
@@ -12,16 +13,12 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final FollowService followService;
     private final UserRepository userRepository;
 
     public User addUser(UserDto userDto) {
-        User user = User.builder()
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .name(userDto.getUsername())
-                .bio(userDto.getBio())
-                .image(userDto.getImage())
-                .build();
+
+        User user = User.create(userDto);
 
         if(!StringUtils.hasText(userDto.getUsername())) {
             throw new IllegalArgumentException("not find username");
@@ -40,6 +37,7 @@ public class UserService {
         profileResponse.setUsername(user.getName());
         profileResponse.setBio(user.getBio());
         profileResponse.setImage(user.getImage());
+        profileResponse.setFollowing(this.followService.getFollowing(username));
 
         return profileResponse;
     }

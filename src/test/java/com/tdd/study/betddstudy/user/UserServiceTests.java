@@ -5,6 +5,7 @@ import com.tdd.study.betddstudy.api.user.dto.UserDto;
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.api.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,14 +89,6 @@ public class UserServiceTests {
     })
     void findUserProfileTest(String username, String email, String password, String bio, String image) {
         //given
-        User user = User.builder()
-                .name(username)
-                .email(email)
-                .password(password)
-                .bio(bio)
-                .image(image)
-                .build();
-
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setPassword(password);
@@ -123,14 +116,6 @@ public class UserServiceTests {
     })
     void notFindUserProfileTest(String username, String email, String password, String bio, String image) {
         //given
-        User user = User.builder()
-                .name(username)
-                .email(email)
-                .password(password)
-                .bio(bio)
-                .image(image)
-                .build();
-
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setPassword(password);

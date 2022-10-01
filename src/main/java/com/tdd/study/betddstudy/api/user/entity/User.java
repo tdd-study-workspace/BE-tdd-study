@@ -1,5 +1,6 @@
 package com.tdd.study.betddstudy.api.user.entity;
 
+import com.tdd.study.betddstudy.api.user.dto.UserDto;
 import com.tdd.study.betddstudy.global.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,12 +26,21 @@ import java.util.Collection;
 public class User extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     Long id;
-
     private String name;
     private String email;
     private String password;
     private String bio;
     private String image;
+
+    public static User create(UserDto userDto) {
+        return User.builder()
+                .name(userDto.getUsername())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .bio(userDto.getBio())
+                .image(userDto.getImage())
+                .build();
+    }
 
     /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
