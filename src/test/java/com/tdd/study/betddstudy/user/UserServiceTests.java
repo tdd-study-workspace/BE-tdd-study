@@ -2,6 +2,7 @@ package com.tdd.study.betddstudy.user;
 
 import com.tdd.study.betddstudy.api.user.dto.ProfileResponse;
 import com.tdd.study.betddstudy.api.user.dto.UserDto;
+import com.tdd.study.betddstudy.api.user.entity.Follow;
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.api.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +15,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @AutoConfigureTestEntityManager
 @AutoConfigureTestDatabase
@@ -60,15 +62,9 @@ public class UserServiceTests {
             "username2, , password",
             " , email3, password3"
     })
-    @DisplayName("프로필이 있을 때 조회 테스트")
+    @DisplayName("회원가입 실패 테스트")
     void registerFailTest(String username, String email, String password) {
         //given
-        User user = User.builder()
-                .name(username)
-                .email(email)
-                .password(password)
-                .build();
-
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setPassword(password);
@@ -81,25 +77,16 @@ public class UserServiceTests {
                .isInstanceOf(Exception.class);
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "username1, email1, password1, bio1, image1",
-            "username2, email2, password2, bio2, image2",
-            "username3, email3, password3, bio3, image3"
-    })
-    void findUserProfileTest(String username, String email, String password, String bio, String image) {
+    @Test
+    @DisplayName("사용자 프로필 조회 테스트")
+    void findUserProfileTest() {
         //given
-        UserDto userDto = new UserDto();
-        userDto.setUsername(username);
-        userDto.setPassword(password);
-        userDto.setEmail(email);
-        userDto.setBio(bio);
-        userDto.setImage(image);
+        UserDto userDto = UserDto.createMock("profile-test-name-01");
 
         userService.addUser(userDto);
 
         //when
-        ProfileResponse profileResponse = userService.getProfile(username);
+        ProfileResponse profileResponse = userService.getProfile(userDto.getUsername());
 
         //then
         assertAll(
@@ -108,27 +95,51 @@ public class UserServiceTests {
         );
     }
 
+    @Test
     @DisplayName("프로필이 없어도 조회가 되는지 테스트")
-    @ParameterizedTest
-    @CsvSource({
-            "username1, email1, password1, bio1, ",
-            "username2, email2, password2, , "
-    })
-    void notFindUserProfileTest(String username, String email, String password, String bio, String image) {
+    void notFindUserProfileTest() {
         //given
-        UserDto userDto = new UserDto();
-        userDto.setUsername(username);
-        userDto.setPassword(password);
-        userDto.setEmail(email);
-        userDto.setBio(bio);
-        userDto.setImage(image);
+        UserDto userDto = UserDto.createMock("test01");
 
         userService.addUser(userDto);
 
         //when
-        ProfileResponse profileResponse = userService.getProfile(username);
+        ProfileResponse profileResponse = userService.getProfile(userDto.getUsername());
 
         //then
         assertThat(profileResponse.getImage()).isNullOrEmpty();
+    }
+
+    @Test
+    @DisplayName("팔로우 성공 테스트")
+    void followSuccessTest() {
+        //given
+        UserDto userDto1 = UserDto.createMock("username01");
+        UserDto userDto2 = UserDto.createMock("username02");
+
+        User user1 = userService.addUser(userDto1);
+        User user2 = userService.addUser(userDto2);
+
+        //when
+        Follow result = userService.addFollow(user1.getName(), user2.getName());
+
+        //then
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    @DisplayName("팔로우 실패 테스트")
+    void followFailTest() {
+        //given
+        UserDto userDto1 = UserDto.createMock("username01");
+
+        User user1 = userService.addUser(userDto1);
+
+        //when
+
+        //then
+        assertThatThrownBy(() -> userService.addFollow(user1.getName(), "unknown"))
+                .isInstanceOf(Exception.class);
+
     }
 }

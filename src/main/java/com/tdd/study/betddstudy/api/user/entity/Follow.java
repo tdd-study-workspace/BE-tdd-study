@@ -1,4 +1,4 @@
-package com.tdd.study.betddstudy.api.profile.entity;
+package com.tdd.study.betddstudy.api.user.entity;
 
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.global.entity.BaseEntity;
@@ -14,9 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(name = "follow_id_seq_gen", sequenceName = "follow_id_seq", allocationSize = 1)
 public class Follow extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "follow_id_seq_gen")
     private Long id;
 
     /**

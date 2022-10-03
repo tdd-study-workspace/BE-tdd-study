@@ -17,8 +17,14 @@ public class UserController {
         return userService.addUser(userDto);
     }
 
-    @GetMapping("/profile/{username}")
+    @GetMapping("/profiles/{username}")
     public Object getProfile(@PathVariable String username) {
         return userService.getProfile(username);
+    }
+
+    //TODO 현재 토큰을 통해서 개인정보를 가져오는 기능이 없으므로, 임시로 사용자 값을 받아서 진행
+    @PostMapping("/profiles/{username}/follow")
+    public Object followUser(String followerName, @PathVariable String username) {
+        return userService.addFollow(followerName, username);
     }
 }
