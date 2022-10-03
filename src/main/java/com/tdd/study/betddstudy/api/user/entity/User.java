@@ -21,7 +21,6 @@ import java.util.Collection;
         initialValue = 0,
         allocationSize = 10
 )
-//public class User extends BaseEntity implements UserDetails {
 @Table(name = "tdd_user")
 public class User extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
@@ -41,40 +40,4 @@ public class User extends BaseEntity {
                 .image(userDto.getImage())
                 .build();
     }
-
-    /*@Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }*/
-
 }

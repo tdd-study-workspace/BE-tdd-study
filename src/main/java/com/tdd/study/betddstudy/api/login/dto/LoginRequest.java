@@ -1,10 +1,13 @@
 package com.tdd.study.betddstudy.api.login.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class LoginRequest {
 
     private String email;

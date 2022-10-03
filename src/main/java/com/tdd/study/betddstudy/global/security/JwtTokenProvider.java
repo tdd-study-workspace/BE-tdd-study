@@ -1,11 +1,10 @@
 package com.tdd.study.betddstudy.global.security;
 
-import com.tdd.study.betddstudy.api.user.service.UserService;
+import com.tdd.study.betddstudy.global.security.service.UserPrincipalService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,10 +19,10 @@ public class JwtTokenProvider {
     @Value("${jwt.token.secretKey}")
     private String secretKey;
 
-    @Value("${jwt.token.expire-length}")
+    @Value("${jwt.token.expireLength}")
     private long expireTime;
 
-    private UserService userService;
+    private UserPrincipalService userPrincipalService;
 
     public String generateToken(Authentication authentication) {
 
@@ -42,7 +41,7 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         String username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-        UserDetails userDetails = userService.loadUserByUsername(username);
+        UserDetails userDetails = userPrincipalService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

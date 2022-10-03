@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity
 @EnableWebSecurity
 public class SecurityConfiguration {
 
@@ -37,7 +36,7 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .authorizeRequests()
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

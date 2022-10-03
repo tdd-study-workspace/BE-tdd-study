@@ -18,8 +18,8 @@ server:
   port: 8080
 jwt:
   token:
-    secret-key: asdbfbufiebgiebagiaubgiabergiuaebgiub
-    expire-length: 3600
+    secretKey: asdbfbufiebgiebagiaubgiabergiuaebgiub
+    expireLength: 3600
 springdoc:
   api-docs:
     groups:
