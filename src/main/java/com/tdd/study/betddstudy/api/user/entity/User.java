@@ -1,12 +1,11 @@
 package com.tdd.study.betddstudy.api.user.entity;
 
+import com.tdd.study.betddstudy.api.user.dto.UserDto;
 import com.tdd.study.betddstudy.global.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -16,26 +15,40 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 @Entity
-//@SequenceGenerator(
-//        name = "user_seq_gen",
-//        sequenceName = "user_seq",
-//        initialValue = 0,
-//        allocationSize = 10
-//)
-public class User extends BaseEntity implements UserDetails {
-//public class User extends BaseEntity {
-//    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
-    @Id
+@SequenceGenerator(
+        name = "user_seq_gen",
+        sequenceName = "user_seq",
+        initialValue = 0,
+        allocationSize = 10
+)
+//public class User extends BaseEntity implements UserDetails {
+@Table(name = "tdd_user")
+public class User extends BaseEntity {
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     Long id;
-
     private String name;
     private String email;
     private String password;
     private String bio;
     private String image;
 
-    @Override
+    public static User create(UserDto userDto) {
+        return User.builder()
+                .name(userDto.getUsername())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .bio(userDto.getBio())
+                .image(userDto.getImage())
+                .build();
+    }
+
+    /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
         return null;
     }
 
@@ -62,5 +75,6 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
-    }
+    }*/
+
 }
