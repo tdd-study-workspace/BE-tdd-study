@@ -1,6 +1,6 @@
-package com.tdd.study.betddstudy.api.profile.repository;
+package com.tdd.study.betddstudy.api.user.repository;
 
-import com.tdd.study.betddstudy.api.profile.entity.Follow;
+import com.tdd.study.betddstudy.api.user.entity.Follow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
