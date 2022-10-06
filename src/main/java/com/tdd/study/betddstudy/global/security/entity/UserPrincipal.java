@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
 
-    private Long id;
+    private String id;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
@@ -55,7 +55,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public static UserPrincipal create(User user) {
@@ -63,7 +63,7 @@ public class UserPrincipal implements UserDetails {
                 singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new UserPrincipal(
-                user.getId(),
+                user.getEmail(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities

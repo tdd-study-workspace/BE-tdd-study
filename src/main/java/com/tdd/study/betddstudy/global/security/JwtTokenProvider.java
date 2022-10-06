@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
     @Value("${jwt.token.secretKey}")
     private String secretKey;
@@ -22,17 +25,17 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expireLength}")
     private long expireTime;
 
-    private UserPrincipalService userPrincipalService;
+    private final UserPrincipalService userPrincipalService;
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(String email) {
 
-        Claims claims = Jwts.claims().setSubject(authentication.getName());
+//        Claims claims = Jwts.claims().setSubject(email);
 
         Date now = new Date();
         Date expiresIn = new Date(now.getTime() + expireTime);
 
         return Jwts.builder()
-                .setClaims(claims)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expiresIn)
                 .signWith(SignatureAlgorithm.HS256, secretKey)

@@ -3,6 +3,7 @@ package com.tdd.study.betddstudy.api.login.service;
 import com.tdd.study.betddstudy.api.login.dto.LoginRequest;
 import com.tdd.study.betddstudy.global.security.JwtTokenProvider;
 import com.tdd.study.betddstudy.global.security.dto.TokenDto;
+import com.tdd.study.betddstudy.global.security.entity.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,14 +23,17 @@ public class LoginService {
 
     public TokenDto login(LoginRequest loginRequest) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getEmail(),
-                            loginRequest.getPassword()
-                    )
-            );
+//            UserPrincipal userPrincipal = new UserPrincipal(loginRequest.getEmail(),"", loginRequest.getPassword(), null);
+//            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken();
+//            token.setAuthenticated(true);
+//            Authentication authentication = authenticationManager.authenticate(
+//                    /*new UsernamePasswordAuthenticationToken(
+//                            loginRequest.getEmail(),
+//                            loginRequest.getPassword()
+//                    )*/
+//            );
             TokenDto tokenDto = new TokenDto(
-                    jwtTokenProvider.generateToken(authentication)
+                    jwtTokenProvider.generateToken(loginRequest.getEmail())
             );
 
             return tokenDto;

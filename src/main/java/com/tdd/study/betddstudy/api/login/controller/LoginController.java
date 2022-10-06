@@ -3,12 +3,9 @@ package com.tdd.study.betddstudy.api.login.controller;
 import com.tdd.study.betddstudy.api.login.dto.LoginRequest;
 import com.tdd.study.betddstudy.api.login.service.LoginService;
 import com.tdd.study.betddstudy.global.security.dto.TokenDto;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
