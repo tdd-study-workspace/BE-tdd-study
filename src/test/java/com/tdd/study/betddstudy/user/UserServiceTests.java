@@ -15,6 +15,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -141,5 +143,41 @@ public class UserServiceTests {
         assertThatThrownBy(() -> userService.addFollow(user1.getName(), "unknown"))
                 .isInstanceOf(Exception.class);
 
+    }
+
+    @Test
+    @DisplayName("언팔로우 성공 테스트")
+    void unfollowSuccessTest() {
+        //given
+        UserDto userDto1 = UserDto.createMock("username01");
+        UserDto userDto2 = UserDto.createMock("username02");
+
+        User user1 = userService.addUser(userDto1);
+        User user2 = userService.addUser(userDto2);
+
+        userService.addFollow(user1.getName(), user2.getName());
+
+        //when
+        boolean unfollow = userService.deleteFollow(userDto1.getUsername(), userDto2.getUsername());
+
+        //then
+        assertThat(unfollow).isTrue();
+    }
+
+    @Test
+    @DisplayName("언팔로우 실패 테스트")
+    void unfollowFailTest() {
+        UserDto userDto1 = UserDto.createMock("username01");
+        UserDto userDto2 = UserDto.createMock("username02");
+
+        User user1 = userService.addUser(userDto1);
+        User user2 = userService.addUser(userDto2);
+
+//        userService.addFollow(user1.getName(), user2.getName());
+
+        //when
+        //then
+        assertThatThrownBy(() -> userService.deleteFollow(userDto1.getUsername(), userDto2.getUsername()))
+                .isInstanceOf(Exception.class);
     }
 }
