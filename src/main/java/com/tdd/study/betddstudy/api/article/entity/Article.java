@@ -15,9 +15,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(
+    name = "article_seq_gen",
+    sequenceName = "article_seq",
+    initialValue = 0,
+    allocationSize = 10
+)
 @Builder
 public class Article extends BaseEntity {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_seq_gen")
     private Long id;
     private String slug;
     private String title;
