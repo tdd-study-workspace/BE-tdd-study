@@ -67,4 +67,20 @@ public class UserService {
 
         return followRepository.save(follow);
     }
+
+    //TOOD 토큰 적용되면 리팩토링 필요 -> followerName이 제거되어야함
+   @Transactional
+    public boolean deleteFollow(String followerName, String followeeName) {
+        User follower = userRepository.findByName(followerName)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        User followee = userRepository.findByName(followeeName)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        Follow follow = followRepository.findByFollowerAndFollowee(follower, followee)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        followRepository.delete(follow);
+
+        return true;
+    }
 }
