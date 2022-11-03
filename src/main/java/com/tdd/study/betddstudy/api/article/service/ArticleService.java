@@ -36,4 +36,14 @@ public class ArticleService {
     public List<Article> getArticle() {
         return articleRepository.findAll();
     }
+
+    public boolean deleteArticle(Article article) {
+        if(articleRepository.existsById(article.getId())) {
+            articleRepository.delete(article);
+        } else {
+            return false;
+        }
+        return true;
+    }
 }
+

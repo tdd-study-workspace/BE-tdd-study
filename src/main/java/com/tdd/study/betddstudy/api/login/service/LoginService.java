@@ -3,14 +3,8 @@ package com.tdd.study.betddstudy.api.login.service;
 import com.tdd.study.betddstudy.api.login.dto.LoginRequest;
 import com.tdd.study.betddstudy.global.security.JwtTokenProvider;
 import com.tdd.study.betddstudy.global.security.dto.TokenDto;
-import com.tdd.study.betddstudy.global.security.entity.UserPrincipal;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
