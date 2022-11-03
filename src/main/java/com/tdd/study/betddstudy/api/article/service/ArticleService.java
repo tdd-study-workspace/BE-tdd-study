@@ -5,6 +5,7 @@ import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.repository.ArticleRepository;
 import com.tdd.study.betddstudy.api.tag.service.ArticleTagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +36,9 @@ public class ArticleService {
 
     public List<Article> getArticle() {
         return articleRepository.findAll();
+    }
+
+    public List<Article> getArticleFeed(int offset, int limit) {
+        return articleRepository.findByOffsetAndLimit(offset, limit);
     }
 }
