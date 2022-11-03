@@ -35,6 +35,8 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+            .headers().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+            .and()
                 .formLogin().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login", "/api/users", "/h2-console/**").permitAll()
