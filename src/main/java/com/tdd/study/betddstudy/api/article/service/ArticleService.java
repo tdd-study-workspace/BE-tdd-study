@@ -29,4 +29,14 @@ public class ArticleService {
         }
         return articleRepository.save(builder.build());
     }
+
+    public boolean deleteArticle(Article article) {
+        if(articleRepository.existsById(article.getId())) {
+            articleRepository.delete(article);
+        } else {
+            return false;
+        }
+        return true;
+    }
 }
+

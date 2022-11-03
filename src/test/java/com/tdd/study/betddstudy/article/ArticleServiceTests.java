@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 @AutoConfigureTestEntityManager
 @AutoConfigureTestDatabase
 @SpringBootTest
@@ -40,6 +43,45 @@ public class ArticleServiceTests {
         Article article = articleService.addArticle(articleRequestDto);
 
         //then
-        Assertions.assertThat(article.getId()).isEqualTo(0L);
+        assertThat(article.getId()).isEqualTo(0L);
+    }
+
+    @DisplayName("Article 삭제 성공 테스트")
+    @Transactional
+    @ParameterizedTest
+    @CsvSource({
+            "testTitle, testDescription, testBody"
+    })
+    void deleteArticleSuccessTest(String title, String description, String body) {
+        //given
+        ArticleRequestDto articleRequestDto = new ArticleRequestDto(title, description, body, null);
+
+        Article article = articleService.addArticle(articleRequestDto);
+
+        //when
+        boolean result = articleService.deleteArticle(article);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("Article 삭제 실패 테스트")
+    @Transactional
+    @ParameterizedTest
+    @CsvSource({
+            "testTitle, testDescription, testBody"
+    })
+    void deleteArticleFailTest(String title, String description, String body) {
+        //given
+        ArticleRequestDto articleRequestDto = new ArticleRequestDto(title, description, body, null);
+
+        Article article = articleService.addArticle(articleRequestDto);
+        Article obj = Article.builder().id(-1L).build();
+
+        //when
+        boolean result = articleService.deleteArticle(obj);
+
+        //then
+        assertThat(result).isFalse();
     }
 }
