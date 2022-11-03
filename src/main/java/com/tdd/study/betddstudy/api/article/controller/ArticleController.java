@@ -1,12 +1,12 @@
 package com.tdd.study.betddstudy.api.article.controller;
 
 import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
+import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +18,10 @@ public class ArticleController {
     @PostMapping("/article")
     public void addArticle(@RequestBody ArticleRequestDto articleRequestDto) {
         articleService.addArticle(articleRequestDto);
+    }
+
+    @GetMapping("/article")
+    public List<Article> getArticle() {
+        return articleService.getArticle();
     }
 }

@@ -3,10 +3,7 @@ package com.tdd.study.betddstudy.api.article.entity;
 import com.tdd.study.betddstudy.api.tag.entity.ArticleTag;
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.global.entity.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +18,7 @@ import java.util.List;
     initialValue = 0,
     allocationSize = 10
 )
+@EqualsAndHashCode
 @Builder
 public class Article extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_seq_gen")

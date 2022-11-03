@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.tdd.study.betddstudy.api.article.entity.Article.*;
 
@@ -28,6 +31,10 @@ public class ArticleService {
         if (Objects.nonNull(articleRequestDto.getTagList())) {
         }
         return articleRepository.save(builder.build());
+    }
+
+    public List<Article> getArticle() {
+        return articleRepository.findAll();
     }
 
     public boolean deleteArticle(Article article) {
