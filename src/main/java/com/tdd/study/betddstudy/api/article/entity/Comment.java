@@ -2,10 +2,7 @@ package com.tdd.study.betddstudy.api.article.entity;
 
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.global.entity.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 public class Comment extends BaseEntity {
 

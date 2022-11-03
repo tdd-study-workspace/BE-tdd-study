@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 @AutoConfigureTestEntityManager
 @AutoConfigureTestDatabase
 @SpringBootTest
@@ -40,6 +42,26 @@ public class ArticleServiceTests {
         Article article = articleService.addArticle(articleRequestDto);
 
         //then
-        Assertions.assertThat(article.getId()).isEqualTo(0L);
+        assertThat(article.getId()).isEqualTo(0L);
+    }
+
+    @DisplayName("Article List 조회")
+    @Transactional
+    @Test
+    void getArticleListTest() {
+        //given
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title", "description", "body", null);
+        ArticleRequestDto articleRequestDto2 = new ArticleRequestDto("title", "description", "body", null);
+        ArticleRequestDto articleRequestDto3 = new ArticleRequestDto("title", "description", "body", null);
+
+        articleService.addArticle(articleRequestDto1);
+        articleService.addArticle(articleRequestDto2);
+        articleService.addArticle(articleRequestDto3);
+
+        //when
+        List<Article> article = articleService.getArticle();
+
+        //then
+        assertThat(article.size()).isEqualTo(3);
     }
 }
