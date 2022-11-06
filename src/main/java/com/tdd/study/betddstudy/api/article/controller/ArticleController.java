@@ -24,4 +24,9 @@ public class ArticleController {
     public List<Article> getArticle() {
         return articleService.getArticle();
     }
+
+    @GetMapping("/article/{slug}")
+    public Article getArticleBySlug(@PathVariable String slug) {
+        return null;
+    }
 }

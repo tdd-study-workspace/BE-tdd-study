@@ -66,7 +66,6 @@ public class ArticleServiceTests {
 
         //then
         assertThat(article.size()).isEqualTo(3);
-        assertThat(article.getId()).isEqualTo(0L);
     }
 
     @DisplayName("Article 삭제 성공 테스트")
@@ -106,5 +105,25 @@ public class ArticleServiceTests {
 
         //then
         assertThat(result).isFalse();
+    }
+
+    @DisplayName("Article 조회")
+    @Transactional
+    @Test
+    void getArticleByIdTest() {
+        //given
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title 1 2", "description", "body", null);
+        ArticleRequestDto articleRequestDto2 = new ArticleRequestDto("title 2", "description", "body", null);
+        ArticleRequestDto articleRequestDto3 = new ArticleRequestDto("title 3", "description", "body", null);
+
+        articleService.addArticle(articleRequestDto1);
+        articleService.addArticle(articleRequestDto2);
+        articleService.addArticle(articleRequestDto3);
+
+        //when
+        Article article = articleService.getArticleBySlug("title-1-2");
+
+        //then
+        assertThat(article.getSlug()).isEqualTo("title-1-2");
     }
 }

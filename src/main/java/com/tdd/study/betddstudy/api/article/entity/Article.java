@@ -23,7 +23,9 @@ import java.util.List;
 public class Article extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_seq_gen")
     private Long id;
+    @Column(unique = true)
     private String slug;
+    @Column(unique = true)
     private String title;
     private String description;
     private String body;
