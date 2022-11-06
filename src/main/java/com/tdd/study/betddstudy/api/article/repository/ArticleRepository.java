@@ -11,6 +11,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Article deleteArticleById(Long id);
 
-    @Query(value = "select * from Article a order by a.id offset ?1 limit ?2", nativeQuery = true)
+    @Query(value = "select * from Article a limit ?2 offset ?1", nativeQuery = true)
     List<Article> findByOffsetAndLimit(int offset, int limit);
 }
