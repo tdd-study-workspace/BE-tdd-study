@@ -1,6 +1,7 @@
 package com.tdd.study.betddstudy.api.article.service;
 
 import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
+import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
 import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.repository.ArticleRepository;
 import com.tdd.study.betddstudy.api.tag.service.ArticleTagService;
@@ -53,6 +54,11 @@ public class ArticleService {
 
     public Article getArticleBySlug(String slug) {
         return articleRepository.findBySlug(slug);
+    }
+
+    public Article updateArticleBySlug(String slug, ArticleUpdateRequestDto articleUpdateRequestDto) {
+        Article articleBySlug = getArticleBySlug(slug);
+        return articleBySlug;
     }
 }
 

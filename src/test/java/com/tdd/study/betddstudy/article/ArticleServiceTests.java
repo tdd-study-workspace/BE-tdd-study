@@ -1,6 +1,7 @@
 package com.tdd.study.betddstudy.article;
 
 import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
+import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
 import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.entity.Article.ArticleBuilder;
 import com.tdd.study.betddstudy.api.article.service.ArticleService;
@@ -107,6 +108,7 @@ public class ArticleServiceTests {
         assertThat(result).isFalse();
     }
 
+<<<<<<< Updated upstream
     @DisplayName("Article 조회")
     @Transactional
     @Test
@@ -125,5 +127,22 @@ public class ArticleServiceTests {
 
         //then
         assertThat(article.getSlug()).isEqualTo("title-1-2");
+=======
+    @DisplayName("Article 업데이트")
+    @Transactional
+    @Test
+    void updateArticleTest() {
+        //given
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title test", "description", "body", null);
+
+        String slug = articleService.addArticle(articleRequestDto1).getSlug();
+        ArticleUpdateRequestDto articleUpdateRequestDto = new ArticleUpdateRequestDto();
+        articleUpdateRequestDto.setTitle("title update");
+        //when
+        Article article = articleService.updateArticleBySlug(slug, articleUpdateRequestDto);
+
+        //then
+        assertThat(article.getSlug()).isEqualTo("title test");
+>>>>>>> Stashed changes
     }
 }

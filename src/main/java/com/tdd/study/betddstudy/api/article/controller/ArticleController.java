@@ -1,6 +1,7 @@
 package com.tdd.study.betddstudy.api.article.controller;
 
 import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
+import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
 import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class ArticleController {
     @GetMapping("/article/{slug}")
     public Article getArticleBySlug(@PathVariable String slug) {
         return articleService.getArticleBySlug(slug);
+    }
+
+    @PutMapping("/article/{slug}")
+    public void updateArticleBySlug(@PathVariable String slug, @RequestBody(required = false) ArticleUpdateRequestDto articleUpdateRequestDto) {
+        articleService.updateArticleBySlug(slug, articleUpdateRequestDto);
     }
 }
