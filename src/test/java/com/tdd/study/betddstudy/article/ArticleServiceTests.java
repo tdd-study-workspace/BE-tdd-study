@@ -108,7 +108,6 @@ public class ArticleServiceTests {
         assertThat(result).isFalse();
     }
 
-<<<<<<< Updated upstream
     @DisplayName("Article 조회")
     @Transactional
     @Test
@@ -127,7 +126,8 @@ public class ArticleServiceTests {
 
         //then
         assertThat(article.getSlug()).isEqualTo("title-1-2");
-=======
+    }
+
     @DisplayName("Article 업데이트")
     @Transactional
     @Test
@@ -143,6 +143,5 @@ public class ArticleServiceTests {
 
         //then
         assertThat(article.getSlug()).isEqualTo("title test");
->>>>>>> Stashed changes
     }
 }
