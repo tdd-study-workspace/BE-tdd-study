@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @NoArgsConstructor
@@ -39,4 +40,11 @@ public class Article extends BaseEntity {
 
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Favorite> favoriteList;
+
+    public void update(Article update) {
+        Optional.ofNullable(update.getSlug()).ifPresent(none -> this.slug = update.getSlug());
+        Optional.ofNullable(update.getTitle()).ifPresent(none -> this.title = update.getTitle());
+        Optional.ofNullable(update.getBody()).ifPresent(none -> this.body = update.getBody());
+        Optional.ofNullable(update.getDescription()).ifPresent(none -> this.description = update.getDescription());
+    }
 }

@@ -56,9 +56,16 @@ public class ArticleService {
         return articleRepository.findBySlug(slug);
     }
 
+    @Transactional
     public Article updateArticleBySlug(String slug, ArticleUpdateRequestDto articleUpdateRequestDto) {
         Article articleBySlug = getArticleBySlug(slug);
-        return articleBySlug;
+        ArticleBuilder builder = builder();
+        builder.description(articleUpdateRequestDto.getDescription());
+        builder.body(articleUpdateRequestDto.getBody());
+        builder.title(articleUpdateRequestDto.getTitle());
+        builder.slug(makeSlug(articleUpdateRequestDto.getTitle()));
+        articleBySlug.update(builder.build());
+        return articleRepository.save(articleBySlug);
     }
 }
 

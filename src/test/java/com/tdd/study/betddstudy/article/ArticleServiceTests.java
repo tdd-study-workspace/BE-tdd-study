@@ -142,6 +142,6 @@ public class ArticleServiceTests {
         Article article = articleService.updateArticleBySlug(slug, articleUpdateRequestDto);
 
         //then
-        assertThat(article.getSlug()).isEqualTo("title test");
+        assertThat(article.getSlug()).isEqualTo("title-update");
     }
 }
