@@ -26,6 +26,7 @@ public class ArticleService {
     public Article addArticle(ArticleRequestDto articleRequestDto) {
         ArticleBuilder builder = builder();
         builder.title(articleRequestDto.getTitle());
+        builder.slug(makeSlug(articleRequestDto.getTitle()));
         builder.description(articleRequestDto.getDescription());
         builder.body(articleRequestDto.getBody());
         if (Objects.nonNull(articleRequestDto.getTagList())) {
@@ -44,6 +45,14 @@ public class ArticleService {
             return false;
         }
         return true;
+    }
+
+    private String makeSlug(String title) {
+        return title.replaceAll(" ", "-");
+    }
+
+    public Article getArticleBySlug(String slug) {
+        return articleRepository.findBySlug(slug);
     }
 }
 
