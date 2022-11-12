@@ -13,4 +13,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(value = "select * from Article a limit ?2 offset ?1", nativeQuery = true)
     List<Article> findByOffsetAndLimit(int offset, int limit);
+
+    Article findBySlug(String slug);
 }
