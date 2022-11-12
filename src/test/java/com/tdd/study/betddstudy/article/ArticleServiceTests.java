@@ -54,9 +54,9 @@ public class ArticleServiceTests {
     @Test
     void getArticleListTest() {
         //given
-        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title", "description", "body", null);
-        ArticleRequestDto articleRequestDto2 = new ArticleRequestDto("title", "description", "body", null);
-        ArticleRequestDto articleRequestDto3 = new ArticleRequestDto("title", "description", "body", null);
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title1", "description", "body", null);
+        ArticleRequestDto articleRequestDto2 = new ArticleRequestDto("title2", "description", "body", null);
+        ArticleRequestDto articleRequestDto3 = new ArticleRequestDto("title3", "description", "body", null);
 
         articleService.addArticle(articleRequestDto1);
         articleService.addArticle(articleRequestDto2);
@@ -64,7 +64,7 @@ public class ArticleServiceTests {
 
         //when
         List<Article> article = articleService.getArticle();
-
+        System.out.println(article.size());
         //then
         assertThat(article.size()).isEqualTo(3);
     }
@@ -108,6 +108,30 @@ public class ArticleServiceTests {
         assertThat(result).isFalse();
     }
 
+    @DisplayName("Ariticle list feed test (offset)")
+    @Test
+    @Transactional
+    void getArticleListFeedTest() {
+        //given
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title1", "description", "body", null);
+        ArticleRequestDto articleRequestDto2 = new ArticleRequestDto("title2", "description", "body", null);
+        ArticleRequestDto articleRequestDto3 = new ArticleRequestDto("title3", "description", "body", null);
+        ArticleRequestDto articleRequestDto4 = new ArticleRequestDto("title4", "description", "body", null);
+        ArticleRequestDto articleRequestDto5 = new ArticleRequestDto("title5", "description", "body", null);
+
+        articleService.addArticle(articleRequestDto1);
+        articleService.addArticle(articleRequestDto2);
+        articleService.addArticle(articleRequestDto3);
+        articleService.addArticle(articleRequestDto4);
+        articleService.addArticle(articleRequestDto5);
+
+        //when
+        List<Article> articleFeed = articleService.getArticleFeed(1, 3);
+
+        //then
+        assertThat(articleFeed.size()).isEqualTo(3);
+    }
+
     @DisplayName("Article 조회")
     @Transactional
     @Test
@@ -116,10 +140,20 @@ public class ArticleServiceTests {
         ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("title 1 2", "description", "body", null);
         ArticleRequestDto articleRequestDto2 = new ArticleRequestDto("title 2", "description", "body", null);
         ArticleRequestDto articleRequestDto3 = new ArticleRequestDto("title 3", "description", "body", null);
+        ArticleRequestDto articleRequestDto4 = new ArticleRequestDto("title4", "description", "body", null);
+        ArticleRequestDto articleRequestDto5 = new ArticleRequestDto("title5", "description", "body", null);
 
         articleService.addArticle(articleRequestDto1);
         articleService.addArticle(articleRequestDto2);
         articleService.addArticle(articleRequestDto3);
+        articleService.addArticle(articleRequestDto4);
+        articleService.addArticle(articleRequestDto5);
+
+        //when
+        List<Article> articleFeed = articleService.getArticleFeed(1, 3);
+
+        //then
+        assertThat(articleFeed.size()).isEqualTo(3);
 
         //when
         Article article = articleService.getArticleBySlug("title-1-2");

@@ -6,6 +6,7 @@ import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.repository.ArticleRepository;
 import com.tdd.study.betddstudy.api.tag.service.ArticleTagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,7 @@ public class ArticleService {
     public Article addArticle(ArticleRequestDto articleRequestDto) {
         ArticleBuilder builder = builder();
         builder.title(articleRequestDto.getTitle());
-        builder.slug(makeSlug(articleRequestDto.getTitle()));
+        builder.slug(this.makeSlug(articleRequestDto.getTitle()));
         builder.description(articleRequestDto.getDescription());
         builder.body(articleRequestDto.getBody());
         if (Objects.nonNull(articleRequestDto.getTagList())) {
@@ -40,7 +41,7 @@ public class ArticleService {
     }
 
     public boolean deleteArticle(Article article) {
-        if(articleRepository.existsById(article.getId())) {
+        if (articleRepository.existsById(article.getId())) {
             articleRepository.delete(article);
         } else {
             return false;
@@ -48,8 +49,12 @@ public class ArticleService {
         return true;
     }
 
+    public List<Article> getArticleFeed(int offset, int limit) {
+        return articleRepository.findByOffsetAndLimit(offset, limit);
+    }
+
     private String makeSlug(String title) {
-        return title.replaceAll(" ", "-");
+        return title.toLowerCase().replaceAll(" ", "-");
     }
 
     public Article getArticleBySlug(String slug) {
