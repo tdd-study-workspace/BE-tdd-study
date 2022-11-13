@@ -6,6 +6,7 @@ import com.tdd.study.betddstudy.global.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,15 +37,16 @@ public class Article extends BaseEntity {
     private User author;
 
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ArticleTag> tagList;
+    private List<ArticleTag> tagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Favorite> favoriteList;
+    private List<Favorite> favoriteList = new ArrayList<>();
 
     public void update(Article update) {
         Optional.ofNullable(update.getSlug()).ifPresent(none -> this.slug = update.getSlug());
         Optional.ofNullable(update.getTitle()).ifPresent(none -> this.title = update.getTitle());
         Optional.ofNullable(update.getBody()).ifPresent(none -> this.body = update.getBody());
         Optional.ofNullable(update.getDescription()).ifPresent(none -> this.description = update.getDescription());
+        Optional.ofNullable(update.getFavoriteList()).ifPresent(none -> this.favoriteList = update.getFavoriteList());
     }
 }

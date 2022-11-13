@@ -5,6 +5,7 @@ import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.CommentRequest;
 import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.entity.Comment;
+import com.tdd.study.betddstudy.api.article.entity.Favorite;
 import com.tdd.study.betddstudy.api.article.repository.ArticleRepository;
 import com.tdd.study.betddstudy.api.article.repository.CommentRepository;
 import com.tdd.study.betddstudy.api.article.service.ArticleService;
@@ -22,10 +23,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -255,5 +259,41 @@ class ArticleServiceTests {
 
         //then
         Assertions.assertThat(test.size()).isEqualTo(2);
+    }
+
+    @DisplayName("아티클 좋아요 성공 테스트")
+    @ParameterizedTest
+    @Transactional
+    @CsvSource({"test1", "test2"})
+    void SuccessFavoriteArticle(String slug) {
+        //given
+        ArticleRequestDto articleRequestDto = new ArticleRequestDto(slug, "description", "body", null);
+        UserDto testUser = UserDto.createMock("testUser");
+
+        User user = userService.addUser(testUser);
+        articleService.addArticle(articleRequestDto);
+
+        //when
+        Article result = articleService.favoriteArticle(slug, user.getId());
+
+        //then
+        assertThat(result.getFavoriteList().stream().map(Favorite::getUser).collect(Collectors.toList())).contains(user);
+    }
+
+    @DisplayName("아티클 좋아요 실패 테스트")
+    @ParameterizedTest
+    @Transactional
+    @CsvSource({"test1", "test2"})
+    void FailFavoriteArticle(String slug) {
+        //given
+        ArticleRequestDto articleRequestDto = new ArticleRequestDto(slug, "description", "body", null);
+        UserDto testUser = UserDto.createMock("testUser");
+
+        User user = userService.addUser(testUser);
+        articleService.addArticle(articleRequestDto);
+        articleService.favoriteArticle(slug, user.getId());
+
+        //when, then
+        assertThatThrownBy(() -> articleService.favoriteArticle(slug, user.getId())).isInstanceOf(ResponseStatusException.class);
     }
 }

@@ -52,4 +52,9 @@ public class ArticleController {
     public List<Comment> getCommentByArticleSlug(@PathVariable String slug) {
         return articleService.getCommentByArticleSlug(slug);
     }
+
+    @PostMapping("/articles/{slug}/favorite")
+    public Article favoriteArticle(@PathVariable String slug, Long userId) {
+        return articleService.favoriteArticle(slug, userId);
+    }
 }
