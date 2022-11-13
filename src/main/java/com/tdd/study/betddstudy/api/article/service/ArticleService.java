@@ -86,5 +86,9 @@ public class ArticleService {
         builder.body(commentRequest.getBody());
         return commentRepository.save(builder.build());
     }
+
+    public List<Comment> getCommentByArticleSlug(String slug) {
+        return commentRepository.findCommentListBySlug(slug);
+    }
 }
 
