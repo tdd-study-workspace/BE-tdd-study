@@ -4,7 +4,6 @@ import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.CommentRequest;
 import com.tdd.study.betddstudy.api.article.entity.Article;
-import com.tdd.study.betddstudy.api.article.entity.Article.ArticleBuilder;
 import com.tdd.study.betddstudy.api.article.entity.Comment;
 import com.tdd.study.betddstudy.api.article.repository.ArticleRepository;
 import com.tdd.study.betddstudy.api.article.repository.CommentRepository;
@@ -16,21 +15,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.assertj.core.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestEntityManager
@@ -214,5 +209,26 @@ class ArticleServiceTests {
 
         //then
         Assertions.assertThat(comment).isEqualTo(commentRepository.findById(comment.getId()).get());
+    }
+
+    @DisplayName("Comment 삭제")
+    @Transactional
+    @ParameterizedTest
+    @CsvSource({"test, 0"})
+    void deleteCommentTest(String slug, Long id) {
+        //given
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("test", "description", "body", null);
+        CommentRequest commentRequest = new CommentRequest("testComment");
+
+        UserDto testUser = UserDto.createMock("testUser");
+        User user = userService.addUser(testUser);
+        articleService.addArticle(articleRequestDto1);
+        articleService.addComment(slug, commentRequest, user);
+
+        //when
+        articleService.deleteComment(slug, id);
+
+        //then
+        
     }
 }

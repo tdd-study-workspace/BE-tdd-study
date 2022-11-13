@@ -86,5 +86,10 @@ public class ArticleService {
         builder.body(commentRequest.getBody());
         return commentRepository.save(builder.build());
     }
+
+    @Transactional
+    public void deleteComment(String slug, Long id) {
+        commentRepository.deleteById(id);
+    }
 }
 
