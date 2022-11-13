@@ -10,11 +10,17 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
+@SequenceGenerator(
+        name = "comment_seq_gen",
+        sequenceName = "comment_seq",
+        initialValue = 0,
+        allocationSize = 10
+)
 @Entity
 public class Comment extends BaseEntity {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq_gen")
     private Long id;
 
     private String body;

@@ -2,6 +2,7 @@ package com.tdd.study.betddstudy.api.article.controller;
 
 import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
+import com.tdd.study.betddstudy.api.article.dto.CommentRequest;
 import com.tdd.study.betddstudy.api.article.entity.Article;
 import com.tdd.study.betddstudy.api.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,10 @@ public class ArticleController {
     @PutMapping("/article/{slug}")
     public void updateArticleBySlug(@PathVariable String slug, @RequestBody(required = false) ArticleUpdateRequestDto articleUpdateRequestDto) {
         articleService.updateArticleBySlug(slug, articleUpdateRequestDto);
+    }
+
+    @PostMapping("/articles/{slug}/comments")
+    public void addComment(@PathVariable String slug, @RequestBody CommentRequest commentRequest) {
+        articleService.addComment(slug, commentRequest, null);
     }
 }

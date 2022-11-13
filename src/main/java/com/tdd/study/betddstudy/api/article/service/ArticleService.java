@@ -2,10 +2,15 @@ package com.tdd.study.betddstudy.api.article.service;
 
 import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
+import com.tdd.study.betddstudy.api.article.dto.CommentRequest;
 import com.tdd.study.betddstudy.api.article.entity.Article;
+import com.tdd.study.betddstudy.api.article.entity.Comment;
 import com.tdd.study.betddstudy.api.article.repository.ArticleRepository;
+import com.tdd.study.betddstudy.api.article.repository.CommentRepository;
 import com.tdd.study.betddstudy.api.tag.service.ArticleTagService;
+import com.tdd.study.betddstudy.api.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +27,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleTagService articleTagService;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public Article addArticle(ArticleRequestDto articleRequestDto) {
@@ -66,6 +72,16 @@ public class ArticleService {
         builder.slug(makeSlug(articleUpdateRequestDto.getTitle()));
         articleBySlug.update(builder.build());
         return articleRepository.save(articleBySlug);
+    }
+
+    @Transactional
+    public Comment addComment(String slug, CommentRequest commentRequest,@Nullable User user) {
+        Article article = this.getArticleBySlug(slug);
+        Comment.CommentBuilder builder = Comment.builder();
+        builder.article(article);
+        builder.author(user);
+        builder.body(commentRequest.getBody());
+        return commentRepository.save(builder.build());
     }
 }
 

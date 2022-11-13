@@ -19,8 +19,8 @@ import java.util.Optional;
     initialValue = 0,
     allocationSize = 10
 )
-@EqualsAndHashCode
 @Builder
+@EqualsAndHashCode(callSuper = false)
 public class Article extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_seq_gen")
     private Long id;
