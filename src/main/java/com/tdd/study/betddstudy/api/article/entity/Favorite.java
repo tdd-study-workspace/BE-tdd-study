@@ -13,9 +13,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
+@SequenceGenerator(
+        name = "favorite_seq_gen",
+        sequenceName = "favorite_seq",
+        initialValue = 0,
+        allocationSize = 10
+)
 public class Favorite extends BaseEntity {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "favorite_seq_gen")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

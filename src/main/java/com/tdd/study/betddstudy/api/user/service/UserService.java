@@ -83,4 +83,9 @@ public class UserService {
 
         return true;
     }
+
+    public User getUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 }
