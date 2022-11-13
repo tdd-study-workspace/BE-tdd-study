@@ -12,7 +12,9 @@ import com.tdd.study.betddstudy.api.user.dto.UserDto;
 import com.tdd.study.betddstudy.api.user.entity.User;
 import com.tdd.study.betddstudy.api.user.service.UserService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestEntityManager
@@ -214,8 +215,8 @@ class ArticleServiceTests {
     @DisplayName("Comment 삭제")
     @Transactional
     @ParameterizedTest
-    @CsvSource({"test, 0"})
-    void deleteCommentTest(String slug, Long id) {
+    @CsvSource({"test"})
+    void deleteCommentTest(String slug) {
         //given
         ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("test", "description", "body", null);
         CommentRequest commentRequest = new CommentRequest("testComment");
@@ -223,12 +224,15 @@ class ArticleServiceTests {
         UserDto testUser = UserDto.createMock("testUser");
         User user = userService.addUser(testUser);
         articleService.addArticle(articleRequestDto1);
-        articleService.addComment(slug, commentRequest, user);
+        Comment comment = articleService.addComment(slug, commentRequest, user);
 
         //when
-        articleService.deleteComment(slug, id);
+        articleService.deleteComment(slug, comment.getId());
+
+        assertThrows(Exception.class, () -> commentRepository.findById(comment.getId()).get());
 
     }
+
     @DisplayName("Comment 조회")
     @Transactional
     @Test
@@ -243,7 +247,6 @@ class ArticleServiceTests {
         articleService.addArticle(articleRequestDto1);
 
         //then
-
         articleService.addComment("test", commentRequest1, user);
         articleService.addComment("test", commentRequest2, user);
 
