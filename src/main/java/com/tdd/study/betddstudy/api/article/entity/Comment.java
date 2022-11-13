@@ -17,6 +17,7 @@ import javax.persistence.*;
         initialValue = 0,
         allocationSize = 10
 )
+@ToString
 @Entity
 public class Comment extends BaseEntity {
 
