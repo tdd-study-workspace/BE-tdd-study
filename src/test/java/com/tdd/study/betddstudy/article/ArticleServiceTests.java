@@ -228,7 +228,29 @@ class ArticleServiceTests {
         //when
         articleService.deleteComment(slug, id);
 
+    }
+    @DisplayName("Comment 조회")
+    @Transactional
+    @Test
+    void getCommentByIdTest() {
+        //given
+        ArticleRequestDto articleRequestDto1 = new ArticleRequestDto("test", "description", "body", null);
+        CommentRequest commentRequest1 = new CommentRequest("testComment1");
+        CommentRequest commentRequest2 = new CommentRequest("testComment2");
+
+        UserDto testUser = UserDto.createMock("testUser");
+        User user = userService.addUser(testUser);
+        articleService.addArticle(articleRequestDto1);
+
         //then
-        
+
+        articleService.addComment("test", commentRequest1, user);
+        articleService.addComment("test", commentRequest2, user);
+
+        //when
+        List<Comment> test = articleService.getCommentByArticleSlug("test");
+
+        //then
+        Assertions.assertThat(test.size()).isEqualTo(2);
     }
 }

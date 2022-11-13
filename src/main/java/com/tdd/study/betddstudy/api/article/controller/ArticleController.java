@@ -4,6 +4,7 @@ import com.tdd.study.betddstudy.api.article.dto.ArticleRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.ArticleUpdateRequestDto;
 import com.tdd.study.betddstudy.api.article.dto.CommentRequest;
 import com.tdd.study.betddstudy.api.article.entity.Article;
+import com.tdd.study.betddstudy.api.article.entity.Comment;
 import com.tdd.study.betddstudy.api.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -47,4 +48,8 @@ public class ArticleController {
         articleService.deleteComment(slug, id);
     }
 
+    @GetMapping("/articles/{slug}/comments")
+    public List<Comment> getCommentByArticleSlug(@PathVariable String slug) {
+        return articleService.getCommentByArticleSlug(slug);
+    }
 }

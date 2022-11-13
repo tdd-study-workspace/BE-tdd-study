@@ -91,5 +91,8 @@ public class ArticleService {
     public void deleteComment(String slug, Long id) {
         commentRepository.deleteById(id);
     }
+    public List<Comment> getCommentByArticleSlug(String slug) {
+        return commentRepository.findCommentListBySlug(slug);
+    }
 }
 
