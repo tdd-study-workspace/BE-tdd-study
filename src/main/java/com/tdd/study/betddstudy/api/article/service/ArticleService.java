@@ -87,6 +87,10 @@ public class ArticleService {
         return commentRepository.save(builder.build());
     }
 
+    @Transactional
+    public void deleteComment(String slug, Long id) {
+        commentRepository.deleteById(id);
+    }
     public List<Comment> getCommentByArticleSlug(String slug) {
         return commentRepository.findCommentListBySlug(slug);
     }

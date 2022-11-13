@@ -43,6 +43,11 @@ public class ArticleController {
         articleService.addComment(slug, commentRequest, null);
     }
 
+    @DeleteMapping("/articles/{slug}/comments/{id}")
+    public void deleteComment(@PathVariable String slug, @PathVariable Long id) {
+        articleService.deleteComment(slug, id);
+    }
+
     @GetMapping("/articles/{slug}/comments")
     public List<Comment> getCommentByArticleSlug(@PathVariable String slug) {
         return articleService.getCommentByArticleSlug(slug);
